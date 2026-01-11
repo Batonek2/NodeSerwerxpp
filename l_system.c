@@ -4,12 +4,12 @@
 #include "l_system.h"
 
 #define MAX_LINE 1024
-#define MAX_RULES 256 // Tablica ASCII, żeby mieć szybki dostęp rules['F']
+#define MAX_RULES 256
 
-// Tablica przechowująca reguły: rules['F'] = "F+F-F"
+// Tablica przechowujaca reguly
 char *rules[MAX_RULES]; 
 
-// Funkcja pomocnicza: zwalnianie reguł
+// Funkcja zwalniania regul
 void clear_rules() {
     for (int i = 0; i < MAX_RULES; i++) {
         if (rules[i]) {
@@ -19,12 +19,12 @@ void clear_rules() {
     }
 }
 
-// Funkcja wykonująca jedną iterację derywacji
+// Funkcja wykonująca jedna iteracje derywacji
 char* derive_once(const char* input) {
     long new_len = 0;
     long input_len = strlen(input);
 
-    // KROK 1: Obliczamy długość nowego łańcucha
+    // Obliczamy dlugosc nowego lancucha
     for (long i = 0; i < input_len; i++) {
         unsigned char c = (unsigned char)input[i];
         if (rules[c] != NULL) {
@@ -38,7 +38,7 @@ char* derive_once(const char* input) {
     char *output = (char*)malloc(new_len + 1);
     if (!output) return NULL;
 
-    // KROK 2: Budowanie łańcucha
+    // Budowanie lancucha
     long pos = 0;
     for (long i = 0; i < input_len; i++) {
         unsigned char c = (unsigned char)input[i];
@@ -61,35 +61,33 @@ int generate_lsystem(const char *filename, int iterations, l_system_result_t *ou
         return -1;
     }
 
-    // Czyścimy stare reguły (na wszelki wypadek)
     clear_rules();
 
     char buffer[MAX_LINE];
     char axiom[MAX_LINE];
-    int angle = 90; // Domyślnie
+    int angle = 90; 
 
-    // 1. Wczytanie kąta (pierwsza linia)
+    // Wczytanie kata
     if (fgets(buffer, MAX_LINE, fp)) {
         angle = atoi(buffer);
     }
     
-    // 2. Wczytanie aksjomatu (druga linia)
+    // Wczytanie aksjomatu
     if (fgets(buffer, MAX_LINE, fp)) {
         buffer[strcspn(buffer, "\r\n")] = 0;
         strcpy(axiom, buffer);
     }
 
-    // 3. Wczytanie wszystkich reguł (kolejne linie)
+    // Wczytanie wszystkich regul
     while (fgets(buffer, MAX_LINE, fp)) {
         buffer[strcspn(buffer, "\r\n")] = 0;
-        if (strlen(buffer) < 2) continue; // Puste linie
+        if (strlen(buffer) < 2) continue;
 
-        // Format: ZNAK=CIĄG (np. F=F+F lub X=X+YF)
+        // ZNAK=CIĄG
         char *eq = strchr(buffer, '=');
         if (eq) {
-            unsigned char key = (unsigned char)buffer[0]; // Lewa strona (np. 'F')
-            // Prawa strona to wszystko po '='
-            rules[key] = strdup(eq + 1);
+            unsigned char key = (unsigned char)buffer[0]; // Lewa strona
+            rules[key] = strdup(eq + 1); // Prawa strona
             printf("Loaded rule: %c -> %s\n", key, rules[key]);
         }
     }
@@ -97,7 +95,7 @@ int generate_lsystem(const char *filename, int iterations, l_system_result_t *ou
 
     printf("L-System Config: Angle=%d, Axiom=%s\n", angle, axiom);
 
-    // Derywacja (pętla)
+    // Derywacja
     char *current_str = strdup(axiom);
     
     for (int i = 0; i < iterations; i++) {
@@ -115,7 +113,6 @@ int generate_lsystem(const char *filename, int iterations, l_system_result_t *ou
     out_result->length = strlen(current_str);
     out_result->angle = angle;
     
-    // Czyścimy reguły, bo już nie są potrzebne (mamy gotowy string)
     clear_rules();
 
     return 0;

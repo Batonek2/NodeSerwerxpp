@@ -1,8 +1,6 @@
-# Plik konfiguracyjny dla emulatora EBSimUnoEthCurses [cite: 1631]
-# Definicja wirtualnych przełączników (D0-D3 mogą służyć jako ID węzła)
+# Definicja wirtualnych przełączników
 + nodeIdBit0, status, D0
 + nodeIdBit1, status, D1
 
-# Ustawienie ID węzła na 1 (binarnie 01) w czasie 0
 : 0, nodeIdBit0, 1
 : 0, nodeIdBit1, 0
