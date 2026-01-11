@@ -145,7 +145,7 @@ int main(int argc, char *argv[]) {
     init_canvas();
     
     set_status("System Started. Waiting for nodes...", ANSI_COLOR_BLUE);
-    printf("Serwer wystartowal. Czekam na 4 wezly (bez drukowania mapy)...\n");
+    printf("Serwer wystartowal. Czekam na 4 wezly...\n");
 
     // Inicjalizacja gniazda UDP
     int sockfd;
