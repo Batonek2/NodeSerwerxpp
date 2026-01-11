@@ -1,0 +1,19 @@
+square.txt 2
+dragon.txt 9 lub 10 ale no nwm
+vicsek.txt 3
+
+
+plant.txt 4
+plant_around.txt 4
+binary_tree.txt 5/6
+weed.txt 4/5
+fern.txt 4/5
+
+generalnie to 
+NODE
+EBSimUnoEthCurses -ip 192.168.56.105 nodeY.hex 		Y- numerek node czyli od 1-4
+
+SERVER
+make clean && make 			jeśli trzeba kompilować na nowo
+./server "i tutaj obrazek i liczba iteracji np." plant.txt 4
+
